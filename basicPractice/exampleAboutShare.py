@@ -15,9 +15,9 @@ def get_data(number):                 ##获取训练的数据库
     return list_x,list_label
 
 def inference(x):                    ##定义计算网络
-    a=tf.get_Variable("a",[1])
-    b=tf.get_Variable("b",[1])
-    c=tf.get_Variable("c",[1])
+    a=tf.get_variable("a",[1])
+    b=tf.get_variable("b",[1])
+    c=tf.get_variable("c",[1])
     y=a*x*x+b*x+c
     return y
 
@@ -36,15 +36,15 @@ test_loss=tf.square(test_label-test_y)
 opt=tf.train.GradientDescentOptimizer(0.001)
 train_op=opt.minimize(train_loss)
 
-init=tf.global_variables_initializer        ##初始化变量
+init=tf.global_variables_initializer()        ##初始化变量
 
-train_data_x,train_data_label=get_data(1000)     ##读取数据
+train_data_x,train_data_label=get_data(10000)     ##读取数据
 test_data_x,test_data_label=get_data(100)
 
 with tf.Session() as sess:
     sess.run(init)
-    for i in range(1000):
+    for i in range(10000):
         sess.run(train_op,feed_dict={train_x:train_data_x[i],train_label:train_data_label[i]})
-        if i%10 ==0:
-            test_loss_value=sess.run(test_loss,feed_dict={test_x:test_data_x[i/10],test_label:test_data_label[i/10]})
+        if i % 10 == 0:
+            test_loss_value=sess.run(test_loss,feed_dict={test_x:test_data_x[int(i/100)],test_label:test_data_label[int(i/100)]})
             print("step: %d  eval loss is %3f  "%(i,test_loss_value))
