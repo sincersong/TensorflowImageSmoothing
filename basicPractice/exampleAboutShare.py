@@ -1,5 +1,5 @@
 ##采用共享变量的方式来训练数据
-##本题以函数 y=3*x*x+5*x+8 为例来训练网络
+##本案例以函数 y=3*x*x+5*x+8 为例来训练网络
 
 import tensorflow as tf                ##导包
 import numpy as np
@@ -8,16 +8,16 @@ def get_data(number):                 ##获取训练的数据库
     list_x=[]
     list_label=[]
     for i in range(number):
-        x=np.random.randn(1)*10
-        y=3*x*x+5*x+8+np.random.randn(1)
+        x=np.random.randn(1)
+        y=3*x*x+5*x+8+np.random.randn(1)*0.1
         list_x.append(x)
         list_label.append(y)
     return list_x,list_label
 
 def inference(x):                    ##定义计算网络
-    a=tf.Variable(0.01,name="a")
-    b=tf.Variable(0.01,name="b")
-    c=tf.Variable(0.01,name="c")
+    a=tf.get_Variable("a",[1])
+    b=tf.get_Variable("b",[1])
+    c=tf.get_Variable("c",[1])
     y=a*x*x+b*x+c
     return y
 
@@ -27,8 +27,8 @@ test_x=tf.placeholder(tf.float32)
 test_label=tf.placeholder(tf.float32)
 
 with tf.variable_scope("inference"):       ##设置域内关系，并且设置域内共享前面的变量（名称必须相同）
-    tf.get_variable_scope().reuse_variables()
     train_y=inference(train_x)
+    tf.get_variable_scope().reuse_variables()
     test_y=inference(test_x)
 
 train_loss=tf.square(train_label-train_y)   ##定义损失函数、训练迭代方法和训练目标
@@ -46,5 +46,5 @@ with tf.Session() as sess:
     for i in range(1000):
         sess.run(train_op,feed_dict={train_x:train_data_x[i],train_label:train_data_label[i]})
         if i%10 ==0:
-            test_loss_value=sess.run(test_loss,feed_dict={test_x:test_data_x[i%10],test_label:test_data_label[i%10]})
+            test_loss_value=sess.run(test_loss,feed_dict={test_x:test_data_x[i/10],test_label:test_data_label[i/10]})
             print("step: %d  eval loss is %3f  "%(i,test_loss_value))
