@@ -16,3 +16,7 @@ grads_and_vars=opt.compute_gradients(loss)
 tarin_op=opt.apply_gradients(grads_and_vars)
 
 #收集训练数据
+tf.summary.scalar("a",a)
+tf.summary.scalar("b",b)
+tf.summary.scalar("loss",loss)
+merged_summery=tf.summary.merge_all()
