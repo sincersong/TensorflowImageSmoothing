@@ -1,2 +1,2 @@
 # TensorflowLearnImageSmoothing
-Used for learning Tensorflow Image Smoothing!
+Used to learn Tensorflow Image Smoothing!
