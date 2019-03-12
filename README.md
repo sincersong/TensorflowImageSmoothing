@@ -1,2 +1,2 @@
-# TensorflowLearn
-It is used to learning tensorflow!
+# TensorflowLearnImageSmoothing
+Used for learning Tensorflow Image Smoothing!
